@@ -3,7 +3,7 @@ package web
 type Response struct {
 	Code    int         `json:"status_code"`
 	Message string      `json:"message"`
-	Remark  interface{} `json:"remark"`
+	Remark  interface{} `json:"remark,omitempty"`
 	Data    interface{} `json:"data,omitempty"`
 }
 
@@ -35,7 +35,7 @@ func (r *Response) SuccessCreate(message string, data interface{}) {
 	//r.Code = 200
 	//r.Message = message
 	//r.Data = data
-	r.Out(202, message, "", data)
+	r.Out(202, message, nil, data)
 }
 
 // BadRequest is method for bad request
