@@ -8,7 +8,7 @@ import (
 
 type Validator struct {
 	*web.RegisterRequest
-	*web.DepositRequest
+	*web.UpdateBalanceRequest
 }
 
 func (r *Validator) RegistValidation() interface{} {
@@ -36,6 +36,23 @@ func (r *Validator) DepositValidation() interface{} {
 		Rules: govalidator.MapData{
 			"account_number": []string{"required", "numeric", "max:999999999999"},
 			"nominal":        []string{"required", "numeric", "min:10000", "max:100000000"},
+		},
+		RequiredDefault: true,
+	}).ValidateStruct()
+
+	if len(validator) > 0 {
+		return validator
+	}
+	return nil
+}
+
+func (r *Validator) WithdrawalValidation() interface{} {
+	// validation mandatory field
+	validator := govalidator.New(govalidator.Options{
+		Data: r,
+		Rules: govalidator.MapData{
+			"account_number": []string{"required", "numeric", "max:999999999999"},
+			"nominal":        []string{"required", "numeric", "min:100000", "max:10000000"},
 		},
 		RequiredDefault: true,
 	}).ValidateStruct()

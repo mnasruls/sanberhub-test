@@ -27,7 +27,7 @@ func (r *Response) Success(message string, data interface{}) {
 	//r.Code = 200
 	//r.Message = message
 	//r.Data = data
-	r.Out(200, message, "", data)
+	r.Out(200, message, nil, data)
 }
 
 // Success is method for succeed

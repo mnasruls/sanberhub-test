@@ -1,10 +1,10 @@
 package web
 
-type DepositRequest struct {
+type UpdateBalanceRequest struct {
 	AccountNumber int `json:"account_number"`
 	Nominal       int `json:"nominal"`
 }
 
-type DepositResponse struct {
+type UpdateBalanceResponse struct {
 	Balance int `json:"balance"`
 }

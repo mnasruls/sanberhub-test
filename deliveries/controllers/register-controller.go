@@ -7,17 +7,17 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-type RegisterController struct {
+type RegisterControllers struct {
 	regist *registService.RegisterServices
 }
 
-func NewRegistController(register *registService.RegisterServices) *RegisterController {
-	return &RegisterController{
+func NewRegistControllers(register *registService.RegisterServices) *RegisterControllers {
+	return &RegisterControllers{
 		regist: register,
 	}
 }
 
-func (reg *RegisterController) RegisterController(c echo.Context) error {
+func (reg *RegisterControllers) RegisterController(c echo.Context) error {
 	var response web.Response
 	var registerRequest web.RegisterRequest
 

@@ -19,7 +19,7 @@ func NewDepoControllers(deposit *services.DepoServices) *DepoControllers {
 
 func (dep *DepoControllers) DepositController(c echo.Context) error {
 	var response web.Response
-	var depoRequest web.DepositRequest
+	var depoRequest web.UpdateBalanceRequest
 
 	err := c.Bind(&depoRequest)
 	if err != nil {
@@ -40,5 +40,4 @@ func (dep *DepoControllers) DepositController(c echo.Context) error {
 
 	response.Success("deposit successfully", data)
 	return c.JSON(response.Code, response)
-
 }

@@ -22,10 +22,10 @@ func NewDepoServices(account *repositories.AccountRepositories, mutation *reposi
 	}
 }
 
-func (dep *DepoServices) DepositServices(req *web.DepositRequest) (*web.DepositResponse, interface{}, string, error) {
+func (dep *DepoServices) DepositServices(req *web.UpdateBalanceRequest) (*web.UpdateBalanceResponse, interface{}, string, error) {
 	// validate client request
 	depoValidation := validation.Validator{
-		DepositRequest: req,
+		UpdateBalanceRequest: req,
 	}
 
 	validate := depoValidation.DepositValidation()
@@ -77,7 +77,7 @@ func (dep *DepoServices) DepositServices(req *web.DepositRequest) (*web.DepositR
 		return nil, nil, "", err
 	}
 
-	return &web.DepositResponse{
+	return &web.UpdateBalanceResponse{
 		Balance: updatedBalance,
 	}, nil, "", nil
 }
