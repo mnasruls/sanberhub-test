@@ -12,8 +12,6 @@ import (
 	"gorm.io/gorm"
 )
 
-var ModelsDb *gorm.DB
-
 func GetDbConnection() *gorm.DB {
 	log.Println("create pool database connection")
 

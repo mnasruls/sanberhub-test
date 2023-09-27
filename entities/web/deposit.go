@@ -1,6 +1,10 @@
 package web
 
 type DepositRequest struct {
-	AccountNumber string `json:"account_number"`
-	Nominal       int    `json:"nominal"`
+	AccountNumber int `json:"account_number"`
+	Nominal       int `json:"nominal"`
+}
+
+type DepositResponse struct {
+	Balance int `json:"balance"`
 }

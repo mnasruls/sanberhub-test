@@ -21,7 +21,7 @@ func (usr *UserRepository) CreateUser(user *models.User) (int, error) {
 
 	log.Println("create user in process ...")
 
-	tx := usr.modelsDB.Create(user)
+	tx := usr.modelsDB.Debug().Create(user)
 	if tx.Error != nil {
 		return 0, tx.Error
 	}
@@ -36,7 +36,7 @@ func (usr *UserRepository) CheckUser(nik, noHp *string) (bool, error) {
 
 	log.Println("checking for user ... ")
 
-	tx := usr.modelsDB.Where("nik = ? OR no_hp = ?", *nik, *noHp).Find(&users)
+	tx := usr.modelsDB.Debug().Where("nik = ? OR no_hp = ?", *nik, *noHp).Find(&users)
 	if tx.Error != nil {
 		return false, tx.Error
 	}
