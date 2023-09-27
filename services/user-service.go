@@ -8,25 +8,24 @@ import (
 	"sanberhub-test/entities/web"
 	"sanberhub-test/helpers"
 	"sanberhub-test/repositories"
-	"strconv"
 	"time"
 
 	"github.com/jinzhu/copier"
 )
 
-type RegisterServices struct {
+type UserAndAccountServices struct {
 	usr *repositories.UserRepository
 	acc *repositories.AccountRepositories
 }
 
-func NewRegisterServices(user *repositories.UserRepository, account *repositories.AccountRepositories) *RegisterServices {
-	return &RegisterServices{
+func NewUserAndAccountServices(user *repositories.UserRepository, account *repositories.AccountRepositories) *UserAndAccountServices {
+	return &UserAndAccountServices{
 		usr: user,
 		acc: account,
 	}
 }
 
-func (regService *RegisterServices) RegisterService(req *web.RegisterRequest) (*web.RegistResponse, interface{}, string, error) {
+func (regService *UserAndAccountServices) RegisterService(req *web.RegisterRequest) (*web.RegistResponse, interface{}, string, error) {
 	// validate client request
 	registValidation := validation.Validator{
 		RegisterRequest: req,
@@ -35,7 +34,7 @@ func (regService *RegisterServices) RegisterService(req *web.RegisterRequest) (*
 	validate := registValidation.RegistValidation()
 	if validate != nil {
 		log.Println("Error : ", helpers.JSONEncode(validate))
-		return nil, validate, "invalid validation", nil
+		return nil, validate, "bad request", nil
 	}
 
 	// check user exist or not
@@ -71,15 +70,10 @@ func (regService *RegisterServices) RegisterService(req *web.RegisterRequest) (*
 	// generate account number user
 	idStr := fmt.Sprintf("%04d", id)
 	accountNumberStr := nowTime[:4] + req.NIK[:4] + idStr[len(idStr)-4:]
-	accountNumber, err := strconv.Atoi(accountNumberStr)
-	if err != nil {
-		log.Println("Error : ", err)
-		return nil, nil, "", err
-	}
 
 	accountUser := models.Account{
 		UserId:        id,
-		AccountNumber: accountNumber,
+		AccountNumber: accountNumberStr,
 		CreatedAt:     nowTime,
 		UpdatedAt:     nowTime,
 	}
@@ -92,7 +86,38 @@ func (regService *RegisterServices) RegisterService(req *web.RegisterRequest) (*
 	}
 
 	return &web.RegistResponse{
-		AccountNumber: accountNumber,
+		AccountNumber: accountNumberStr,
 	}, nil, "", nil
 
+}
+
+func (usr *UserAndAccountServices) GetBalance(accountNumber *string) (*web.UpdateBalanceResponse, interface{}, string, error) {
+
+	// validation parameter
+	getBalance := validation.Validator{
+		UpdateBalanceRequest: &web.UpdateBalanceRequest{
+			AccountNumber: *accountNumber,
+		},
+	}
+
+	validate := getBalance.GetBalanceValidation()
+	if validate != nil {
+		log.Println("Error : ", helpers.JSONEncode(validate))
+		return nil, validate, "bad request", nil
+	}
+
+	userAccount, status, err := usr.acc.GetAccount(accountNumber)
+	if err != nil {
+		log.Println("Error :", err)
+		return nil, nil, "", err
+	}
+
+	if status != "" {
+		log.Println("Error :", status)
+		return nil, status, "bad request", nil
+	}
+
+	return &web.UpdateBalanceResponse{
+		Balance: userAccount.Balance,
+	}, nil, "", nil
 }

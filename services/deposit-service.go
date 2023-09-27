@@ -31,7 +31,7 @@ func (dep *DepoServices) DepositServices(req *web.UpdateBalanceRequest) (*web.Up
 	validate := depoValidation.DepositValidation()
 	if validate != nil {
 		log.Println("Error : ", helpers.JSONEncode(validate))
-		return nil, validate, "invalid validation", nil
+		return nil, validate, "bad request", nil
 	}
 
 	// check user account is exist or not

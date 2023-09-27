@@ -7,5 +7,5 @@ type RegisterRequest struct {
 }
 
 type RegistResponse struct {
-	AccountNumber int `json:"account_number"`
+	AccountNumber string `json:"account_number"`
 }

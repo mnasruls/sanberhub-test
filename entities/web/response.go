@@ -35,7 +35,7 @@ func (r *Response) SuccessCreate(message string, data interface{}) {
 	//r.Code = 200
 	//r.Message = message
 	//r.Data = data
-	r.Out(202, message, nil, data)
+	r.Out(201, message, nil, data)
 }
 
 // BadRequest is method for bad request

@@ -31,7 +31,7 @@ func (with *WithdrawalServices) WithdrawalServices(req *web.UpdateBalanceRequest
 	validate := withdrawalValidation.WithdrawalValidation()
 	if validate != nil {
 		log.Println("Error : ", helpers.JSONEncode(validate))
-		return nil, validate, "invalid validation", nil
+		return nil, validate, "bad request", nil
 	}
 
 	// check user account is exist or not

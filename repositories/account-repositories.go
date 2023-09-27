@@ -31,7 +31,7 @@ func (acc *AccountRepositories) CreateAccount(account *models.Account) error {
 	return nil
 }
 
-func (acc *AccountRepositories) GetAccount(accountNumber *int) (*models.Account, string, error) {
+func (acc *AccountRepositories) GetAccount(accountNumber *string) (*models.Account, string, error) {
 	log.Println("get user account data ...")
 
 	var userAccount models.Account
