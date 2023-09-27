@@ -28,9 +28,14 @@ func Build(e *echo.Echo, db *gorm.DB) {
 	withdrawalService := services.NewWithdrawalServices(accountRepo, mutationRepo)
 	withdrawalController := controllers.NewWithdrawalControllers(withdrawalService)
 
+	// mutation constructor
+	mutationService := services.NewMutationServices(mutationRepo)
+	mutationController := controllers.NewMutationControllers(mutationService)
+
 	v1 := "/api/v1"
 	e.POST(v1+"/register", userAccountController.RegisterController)
 	e.PUT(v1+"/deposit", depoController.DepositController)
 	e.PUT(v1+"/withdrawal", withdrawalController.WithdrawalController)
 	e.GET(v1+"/balance/:account_number", userAccountController.GetBalanceController)
+	e.GET(v1+"/mutation/:account_number", mutationController.GetMutationsController)
 }

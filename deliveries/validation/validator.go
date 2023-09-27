@@ -63,7 +63,7 @@ func (r *Validator) WithdrawalValidation() interface{} {
 	return nil
 }
 
-func (r *Validator) GetBalanceValidation() interface{} {
+func (r *Validator) AccountNumberValidation() interface{} {
 	// validation mandatory field
 	validator := govalidator.New(govalidator.Options{
 		Data: r,

@@ -4,6 +4,7 @@ import (
 	"log"
 	"sanberhub-test/entities/models"
 	"sanberhub-test/helpers"
+	"strings"
 
 	"gorm.io/gorm"
 )
@@ -38,11 +39,12 @@ func (acc *AccountRepositories) GetAccount(accountNumber *string) (*models.Accou
 
 	tx := acc.modelsDB.Debug().Where("account_number = ?", *accountNumber).First(&userAccount)
 	if tx.Error != nil {
-		return nil, "", tx.Error
-	}
-
-	if tx.RowsAffected == 0 {
-		return nil, helpers.NOT_FOUND, nil
+		switch strings.Contains(tx.Error.Error(), helpers.NOT_FOUND) {
+		case true:
+			return nil, helpers.NOT_FOUND, nil
+		default:
+			return nil, "", tx.Error
+		}
 	}
 
 	log.Println("get user account data successfully")

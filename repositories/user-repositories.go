@@ -36,7 +36,7 @@ func (usr *UserRepository) CheckUser(nik, noHp *string) (bool, error) {
 
 	log.Println("checking for user ... ")
 
-	tx := usr.modelsDB.Debug().Where("nik = ? OR no_hp = ?", *nik, *noHp).Find(&users)
+	tx := usr.modelsDB.Debug().Where("nik = ? OR no_hp = ?", *nik, *noHp).First(&users)
 	if tx.Error != nil {
 		return false, tx.Error
 	}

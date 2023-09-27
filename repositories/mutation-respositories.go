@@ -31,12 +31,12 @@ func (mut *MutationRepositories) AddMutationHistory(mutation *models.Mutation) e
 	return nil
 }
 
-func (mut *MutationRepositories) GetMutation(accountNumber *int) (*[]models.Mutation, string, error) {
+func (mut *MutationRepositories) GetMutation(accountNumber *string) (*[]models.Mutation, string, error) {
 	log.Println("get user mutation data ...")
 
 	var userMutations []models.Mutation
 
-	tx := mut.modelsDB.Debug().Where("account_number = ?", accountNumber).Find(&userMutations)
+	tx := mut.modelsDB.Debug().Where("user_account_number = ?", accountNumber).Find(&userMutations)
 	if tx.Error != nil {
 		return nil, "", tx.Error
 	}

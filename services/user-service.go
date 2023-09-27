@@ -100,7 +100,7 @@ func (usr *UserAndAccountServices) GetBalance(accountNumber *string) (*web.Updat
 		},
 	}
 
-	validate := getBalance.GetBalanceValidation()
+	validate := getBalance.AccountNumberValidation()
 	if validate != nil {
 		log.Println("Error : ", helpers.JSONEncode(validate))
 		return nil, validate, "bad request", nil
